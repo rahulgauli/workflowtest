@@ -25,3 +25,9 @@ jobs:
         env:
           github_context: ${{ toJson(github) }}
         run: echo "$github_context"
+
+      - name: Checkout This Repository
+        uses: actions/checkout@v4
+        with:
+          repository: rahulgauli/workflowtest
+          path: scripts
