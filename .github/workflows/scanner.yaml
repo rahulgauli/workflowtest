@@ -39,6 +39,6 @@ jobs:
 
       - name: Run the script
         run: |
-          cd workflowtest
+          cd scripts/workflowtest
           python3 scripts/scanner.py
           
