@@ -1,6 +1,6 @@
 name: GitHub Security Scanning Workflow
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       product_id:
         description: 'Product ID'
