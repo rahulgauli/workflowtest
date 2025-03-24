@@ -1,0 +1,25 @@
+name: GitHub Security Scanning Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      product_id:
+        description: 'Product ID'
+        required: true
+        default: '123'
+      
+      scan_type:
+        description: 'Scan Type'
+        required: true
+        default: 'full'
+
+jobs:
+  lets_start_sculpting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Print Github Context 
+        env:
+          github_context: ${{ toJson(github) }}
+        run: echo "$github_context"
