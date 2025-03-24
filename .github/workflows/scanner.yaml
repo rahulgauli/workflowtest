@@ -3,11 +3,13 @@ on:
   workflow_call:
     inputs:
       product_id:
+        type: string
         description: 'Product ID'
         required: true
         default: '123'
       
       scan_type:
+        type: string
         description: 'Scan Type'
         required: true
         default: 'full'
