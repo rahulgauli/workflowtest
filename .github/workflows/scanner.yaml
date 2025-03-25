@@ -45,8 +45,7 @@ jobs:
           ls
           # python3 scanner.py >> $GITHUB_STEP_SUMMARY
           json_output=$(python3 scanner.py)
-          echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
+          # echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
           
-          
-          
+          echo "$json_output" | jq -r 'to_entries | map(["Key", "Value"], ["---", "---"], [.key, .value]) | .[] | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
           
