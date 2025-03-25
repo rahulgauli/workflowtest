@@ -1,5 +1,7 @@
 import json
 import random 
+import csv
+import io
 
 mock_denial_snyk_scan_response = {
     "findings":
@@ -41,4 +43,14 @@ mock_approved_snyk_scan_response = {
 responses = [ mock_denial_snyk_scan_response, mock_approved_snyk_scan_response ]
 random_integer = random.randint(0,1)
 result = json.dumps(responses[random_integer])
-print(result)
+
+def json_to_csv(json_data):
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Severity", "Count", "Types_Findings"])
+    for severity, details in json_data["findings"].items():
+        writer.writerow([severity, details["count"], ", ".join(details["types_findings"])])
+    return output.getvalue()
+
+csv_result = json_to_csv(json.loads(result))
+print(csv_result)
