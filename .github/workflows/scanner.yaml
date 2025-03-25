@@ -40,7 +40,7 @@ jobs:
       - name: Run the script
         run: |
           pwd
-          cd
+          cd ..
           cd scripts
           ls
           pwd
