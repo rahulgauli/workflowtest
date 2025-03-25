@@ -40,4 +40,4 @@ mock_approved_snyk_scan_response = {
 responses = [ mock_denial_snyk_scan_response, mock_approved_snyk_scan_response ]
 random_integer = random.randint(0,1)
 result = responses[random_integer]
-print(result)
+print(f'::set-output name=test_report::{result}')
