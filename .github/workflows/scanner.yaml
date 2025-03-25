@@ -43,6 +43,7 @@ jobs:
           ls
           cd scripts/scripts
           ls
+          python3 scanner.py
           
           
           
