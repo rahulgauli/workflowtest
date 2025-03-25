@@ -43,7 +43,7 @@ jobs:
           ls
           cd scripts/scripts
           ls
-          python3 scanner.py >> $GITHUB_OUTPUT
+          python3 scanner.py >> $GITHUB_STEP_SUMMARY
           
           
           
