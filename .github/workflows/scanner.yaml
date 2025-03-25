@@ -42,6 +42,7 @@ jobs:
           pwd
           ls
           cd scripts
+          ls
           
           
           
