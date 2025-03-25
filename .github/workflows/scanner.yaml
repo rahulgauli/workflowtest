@@ -41,6 +41,7 @@ jobs:
         run: |
           pwd
           cd ..
+          cd ..
           cd scripts
           ls
           pwd
