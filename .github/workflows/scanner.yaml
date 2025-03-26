@@ -15,7 +15,7 @@ on:
         default: 'full'
 
 jobs:
-  lets_start_sculpting:
+  security-scanning:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
