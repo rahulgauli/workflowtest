@@ -1,0 +1,12 @@
+name: Launch GitHub Security Scanning Workflow
+on:
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+  
+jobs:
+  use_the_reusable_workflow:
+    uses: rahulgauli/workflowtest/.github/workflows/scanner.yaml@main
+    with:
+      product_id: '123'
+      scan_type: 'full'
