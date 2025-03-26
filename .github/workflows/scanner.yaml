@@ -15,7 +15,7 @@ on:
         default: 'full'
 
 jobs:
-  security-scanning:
+  lets_start_sculpting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,7 +42,19 @@ jobs:
           cd scripts/scripts
           python3 scanner.py >> $GITHUB_STEP_SUMMARY
           json_output=$(python3 scanner.py)
+
           # echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
           
           # echo "$json_output" | jq -r 'to_entries | map(["Key", "Value"], ["---", "---"], [.key, .value]) | .[] | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
-          
+        
+      - name: Add the Summary Details as A comment in the PR
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '```json\n' + process.env.GITHUB_STEP_SUMMARY + '\n```'
+            })
