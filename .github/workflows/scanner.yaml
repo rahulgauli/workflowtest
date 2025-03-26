@@ -39,10 +39,7 @@ jobs:
 
       - name: Run the script
         run: |
-          pwd
-          ls
           cd scripts/scripts
-          ls
           python3 scanner.py >> $GITHUB_STEP_SUMMARY
           json_output=$(python3 scanner.py)
           # echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
