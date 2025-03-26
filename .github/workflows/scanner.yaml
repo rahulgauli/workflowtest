@@ -39,6 +39,7 @@ jobs:
 
       - name: Run the script
         run: |
+          echo $PR_GITHUB_TOKEN
           cd scripts/scripts
           python3 scanner.py >> $GITHUB_STEP_SUMMARY
           json_output=$(python3 scanner.py)
