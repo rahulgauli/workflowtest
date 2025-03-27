@@ -57,6 +57,6 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'process.env.GITHUB_STEP_SUMMARY'
+              body: '```json\n' + process.env.GITHUB_STEP_SUMMARY + '\n```'
             })
             
