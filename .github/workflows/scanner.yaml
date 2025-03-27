@@ -46,6 +46,7 @@ jobs:
           cd scripts/scripts
           python3 scanner.py >> $GITHUB_STEP_SUMMARY
           json_output=$(python3 scanner.py)
+          
           echo "scanSummary=$json_output" >> "$GITHUB_OUTPUT"
           # echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
           
@@ -63,4 +64,17 @@ jobs:
               repo: context.repo.repo,
               body: '${{ steps.scan.outputs.scanSummary }}'
             })
+      
+      - name: Scan Policy Check 
+        run: |
+          critical_count=$(echo "${{ steps.scan.outputs.scanSummary }}" | jq '.critical')
+          high_count=$(echo "${{ steps.scan.outputs.scanSummary }}" | jq '.high')
+
+          if [ "$critical_count" -gt 0 ] || [ "$high_count" -gt 0 ]; then
+            echo "Critical or High findings detected. Failing the workflow."
+            exit 1
+          else
+            echo "No critical or high findings. Workflow passed."
+          fi
+          
             
