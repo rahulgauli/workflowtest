@@ -66,9 +66,10 @@ jobs:
             })
       
 
-      - name: Scan Policy Check 
+      - name: Scan Policy Check
+        env:
+          policy_output: ${{ steps.scan.outputs.scanSummary }}
         run: |
-          policy_output=${{ steps.scan.outputs.scanSummary }}
           policy_result=$(echo "$policy_output" | jq -r '.policy_result')
           echo "Policy Result: $policy_result"
             
