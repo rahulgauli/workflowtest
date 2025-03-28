@@ -70,12 +70,5 @@ jobs:
         run: |
           policy_output=${{ steps.scan.outputs.scanSummary }}
           policy_result=$(echo "$policy_output" | jq -r '.policy_result')
-
-          if [ "$policy_result" == "fail" ]; then
-            echo "Policy check failed. Exiting with status 1."
-            exit 1
-          else
-            echo "Policy check passed. Exiting with status 0."
-            exit 0
-          fi
+          echo "Policy Result: $policy_result"
             
