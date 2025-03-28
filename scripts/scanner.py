@@ -148,5 +148,5 @@ final_result = {
     "github_summary": github_summary
 }
 
-result = json.dumps(final_result)
-print(result)
+
+print(final_result)
