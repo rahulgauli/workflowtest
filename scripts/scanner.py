@@ -131,7 +131,6 @@ responses = [ mock_snyk_scan_response_a, mock_snyk_scan_response_b, mock_snyk_sc
 random_integer = random.randint(0,4)
 result = json.dumps(responses[random_integer])
 policy_result = policy1(json.loads(result))
-print(policy_result)
 
 
 ## messaging user story will be based off the result with this format
@@ -148,4 +147,6 @@ final_result = {
     "policy_result": policy_result,
     "github_summary": github_summary
 }
-print(final_result)
+
+result = json.dumps(final_result)
+print(result)
