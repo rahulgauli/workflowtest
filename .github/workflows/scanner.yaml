@@ -72,4 +72,11 @@ jobs:
         run: |
           policy_result=$(echo "$policy_output" | jq -r '.policy_result')
           echo "Policy Result: $policy_result"
+          if [ "$policy_result" == "fail" ]; then
+            echo "Policy Check Failed"
+            exit 1
+          else
+            echo "Policy Check Passed"
+          fi
+          
             
