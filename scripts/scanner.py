@@ -148,5 +148,4 @@ final_result = {
     "github_summary": github_summary
 }
 
-
-print(final_result)
+print(json.dumps(final_result))
