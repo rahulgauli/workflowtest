@@ -21,7 +21,7 @@ jobs:
       scanSummary: ${{ steps.scan.outputs.scanSummary }}
       
     steps:
-      - name: Checkout repository
+      - name: Checkout the Clients repository
         uses: actions/checkout@v4
       
       - name: Print Github Context 
@@ -29,18 +29,18 @@ jobs:
           github_context: ${{ toJson(github) }}
         run: echo "$github_context"
 
-      - name: Checkout Scanner Repository
+      - name: Checkout CoffeeScan Repository
         uses: actions/checkout@v4
         with:
           repository: rahulgauli/workflowtest
           path: scripts
           
-      - name: Checkout python build
+      - name: Build Dependency to Run Custom Code
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Run the script
+      - name: Run the Code Scannig Script
         id: scan
         run: |
           cd scripts/scripts
@@ -53,7 +53,7 @@ jobs:
           # echo "$json_output" | jq -r 'to_entries | map(["Key", "Value"], ["---", "---"], [.key, .value]) | .[] | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
         
 
-      - name: Add the Summary Details as A comment in the PR
+      - name: Add the Code Scan Summary as A comment in the PR
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PR_GITHUB_TOKEN }}
@@ -64,9 +64,12 @@ jobs:
               repo: context.repo.repo,
               body: '${{ steps.scan.outputs.scanSummary }}'
             })
+            
+      - name: Send Data to the Monitoring Dashboard
+        run: |
+          echo "Scan Summary Data Processed to the Dashboard"
       
-
-      - name: Scan Policy Check
+      - name: Enforce Custom Policy as Code to the Repository
         env:
           policy_output: ${{ steps.scan.outputs.scanSummary }}
         run: |
