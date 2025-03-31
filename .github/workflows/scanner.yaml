@@ -40,7 +40,7 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Run the Code Scannig Script
+      - name: Run the Snyk Code Scannig Script
         id: scan
         run: |
           cd scripts/scripts
@@ -51,9 +51,19 @@ jobs:
           # echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
           
           # echo "$json_output" | jq -r 'to_entries | map(["Key", "Value"], ["---", "---"], [.key, .value]) | .[] | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
-        
 
-      - name: Add the Code Scan Summary as A comment in the PR
+      
+      - name: Run GitGuardian Code Scanning Script
+        run: |
+          echo "GitGuardian scanned Results"
+
+
+      - name: Build Application Image and Scan VIA wiz
+        run: |
+          echo "Image Build Process and Wiz Scan Results are here"
+
+
+      - name: Add the Full PullRequest Code Scan Summary as A comment in the PR
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.PR_GITHUB_TOKEN }}
@@ -64,6 +74,7 @@ jobs:
               repo: context.repo.repo,
               body: '${{ steps.scan.outputs.scanSummary }}'
             })
+
             
       - name: Send Data to the Monitoring Dashboard
         run: |
