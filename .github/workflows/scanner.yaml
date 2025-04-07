@@ -39,6 +39,14 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+          
+      - name: Get the Repository's Programming language from the Context
+        id: get_language
+        run: |
+          echo "Language: ${{ github.event.pull_request.base.repo.language }}"
+          echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_ENV
+          echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_OUTPUT
+          echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Run the Snyk Code Scannig Script
         id: scan
