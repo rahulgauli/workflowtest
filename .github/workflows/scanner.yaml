@@ -29,10 +29,10 @@ jobs:
           path: client-repo
 
       
-      - name: Print Github Context 
-        env:
-          github_context: ${{ toJson(github) }}
-        run: echo "$github_context"
+      # - name: Print Github Context 
+      #   env:
+      #     github_context: ${{ toJson(github) }}
+      #   run: echo "$github_context"
 
 
       - name: Checkout CoffeeScan Repository
@@ -42,57 +42,49 @@ jobs:
           path: scripts
 
           
-      - name: Build Dependency to Run Custom Code
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.13"
+      # - name: Build Dependency to Run Custom Code
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: "3.13"
 
           
-      - name: Install Pipenv 
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install pipenv
+      # - name: Install Pipenv 
+      #   run: |
+      #     python3 -m pip install --upgrade pip
+      #     pip install pipenv
 
           
-      - name: Get the Repository's Programming language from the Context
-        id: get_language
-        run: |
-          echo "Language: ${{ github.event.pull_request.base.repo.language }}"
-          echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_ENV
-          echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_OUTPUT
-          echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_STEP_SUMMARY
+      # - name: Get the Repository's Programming language from the Context
+      #   id: get_language
+      #   run: |
+      #     echo "Language: ${{ github.event.pull_request.base.repo.language }}"
+      #     echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_ENV
+      #     echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_OUTPUT
+      #     echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Navigate to Client-repo
         id: navigate_client_repo
         run: |
           echo "Navigating to Client Repo"
-          cd client_repo
           ls
           echo "Current Directory: $(pwd)"
-          echo "Client Repo Path: ${{ github.workspace }}/client_repo"
-          echo "Client Repo Language: ${{ github.event.pull_request.base.repo.language }}"
-          echo "Client Repo Name: ${{ github.event.pull_request.base.repo.name }}"
-          echo "Client Repo URL: ${{ github.event.pull_request.base.repo.clone_url }}"
-          echo "Client Repo Branch: ${{ github.event.pull_request.base.ref }}"
-          echo "Client Repo PR Number: ${{ github.event.pull_request.number }}"
-          echo "Client Repo PR URL: ${{ github.event.pull_request.html_url }}"
-          echo "Client Repo PR Title: ${{ github.event.pull_request.title }}"
+          
 
-      - name: Navigate to Barnacle Repo
-        id: navigate_barnacle_repo
-        run: |
-          echo "Navigating to Barnacle Repo"
-          cd ${{ github.workspace }}/scripts
-          ls
-          echo "Current Directory: $(pwd)"
-          echo "Barnacle Repo Path: ${{ github.workspace }}/scripts"
-          echo "Barnacle Repo Language: ${{ github.event.pull_request.base.repo.language }}"
-          echo "Barnacle Repo Name: ${{ github.event.pull_request.base.repo.name }}"
-          echo "Barnacle Repo URL: ${{ github.event.pull_request.base.repo.clone_url }}"
-          echo "Barnacle Repo Branch: ${{ github.event.pull_request.base.ref }}"
-          echo "Barnacle Repo PR Number: ${{ github.event.pull_request.number }}"
-          echo "Barnacle Repo PR URL: ${{ github.event.pull_request.html_url }}"
-          echo "Barnacle Repo PR Title: ${{ github.event.pull_request.title }}"
+      # - name: Navigate to Barnacle Repo
+      #   id: navigate_barnacle_repo
+      #   run: |
+      #     echo "Navigating to Barnacle Repo"
+      #     cd ${{ github.workspace }}/scripts
+      #     ls
+      #     echo "Current Directory: $(pwd)"
+      #     echo "Barnacle Repo Path: ${{ github.workspace }}/scripts"
+      #     echo "Barnacle Repo Language: ${{ github.event.pull_request.base.repo.language }}"
+      #     echo "Barnacle Repo Name: ${{ github.event.pull_request.base.repo.name }}"
+      #     echo "Barnacle Repo URL: ${{ github.event.pull_request.base.repo.clone_url }}"
+      #     echo "Barnacle Repo Branch: ${{ github.event.pull_request.base.ref }}"
+      #     echo "Barnacle Repo PR Number: ${{ github.event.pull_request.number }}"
+      #     echo "Barnacle Repo PR URL: ${{ github.event.pull_request.html_url }}"
+      #     echo "Barnacle Repo PR Title: ${{ github.event.pull_request.title }}"
 
 
 
