@@ -8,6 +8,7 @@ class SnykController:
     def __init__(self, snyk_api_key: str):
         self.snyk_api_key = snyk_api_key 
 
+
     async def setup_snyk_cli(self):
         try:
             subprocess.run([
@@ -20,6 +21,20 @@ class SnykController:
         except subprocess.CalledProcessError as e:
             print(f"Error to setup Snyk CLI: {e}")
             raise
+        
+        
+    async def setup_snyk_api_key(self):
+        try:
+            # Set Snyk API key
+            subprocess.run(
+                ["snyk", "config", "set", f"api={self.snyk_api_key}"],
+                check=True
+            )
+            print("Snyk API key set successfully.")
+        except subprocess.CalledProcessError as e:
+            print(f"Error to setup Snyk API key: {e}")
+            raise
+        
         
     async def validate_Snyk_Cli(self):
         try:
@@ -50,6 +65,7 @@ class SnykController:
             print(f"Error to run Snyk scan: {e}")
             raise
 
+
 class SnykSettings(BaseSettings):
     """
     Configuration settings for the application.
@@ -66,6 +82,8 @@ async def main():
         snyk_client = SnykController(config.SNYK_TOKEN)
         await snyk_client.setup_snyk_cli()
         response = await snyk_client.validate_Snyk_Cli()
+        await snyk_client.setup_snyk_api_key()
+        # Validate Snyk CLI
         if response:
             print("Snyk CLI is installed and validated.")
             response = await snyk_client.run_snyk_scan()
