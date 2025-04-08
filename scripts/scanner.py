@@ -13,7 +13,7 @@ class SnykController:
         try:
             # Check if Snyk CLI is installed
             result = subprocess.run(
-                ["snyk", "version"],
+                ["snyk", "--version"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 check=True,
