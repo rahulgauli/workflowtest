@@ -196,6 +196,7 @@ async def main():
         return
     
 if __name__ == "__main__":
+    print(":SnykCLI Install Begin")
     asyncio.run(main())
     
 
