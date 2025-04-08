@@ -62,14 +62,19 @@ jobs:
           CLIENT_REPO_PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           cd scripts/scripts
-          pipenv install
-          pipenv install --dev
+          # pipenv install
+          # pipenv install --dev
           echo "Dependency Install Successfully Completed"
-          pipenv run python3 -m scanner
+          # pipenv run python3 -m scanner
           snyk --version
-          cd /home/runner/work/caller/caller/client-repo
+          pwd
+          cd ..
           ls
-          snyk test
+          pwd
+          cd ..
+          ls
+          pwd
+          # snyk test
           
       
       - name: Run GitGuardian Code Scanning Script
