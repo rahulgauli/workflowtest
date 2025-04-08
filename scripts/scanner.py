@@ -162,9 +162,9 @@ class SnykController:
         
     async def setup_Snyk_Cli(self):
         try:
-            subprocess.run("sudo", "apt", "install", "-y", "npm", check=True)
-            subprocess.run("npm", "install", "-g", "snyk", check=True)
-            subprocess.run("snyk", "config", "set", f"api={self.snyk_api_key}", check=True)
+            subprocess.run(["sudo", "apt", "install", "-y", "npm"], check=True)
+            subprocess.run(["npm", "install", "-g", "snyk"], check=True)
+            subprocess.run(["snyk", "config", "set", f"api={self.snyk_api_key}"], check=True)
             subprocess.run(["snyk", "--version"], check=True)
             return True
         except Exception as e:
