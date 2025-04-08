@@ -8,18 +8,27 @@ class SnykController:
     def __init__(self, snyk_api_key: str):
         self.snyk_api_key = snyk_api_key 
 
+    async def setup_snyk_cli(self):
+        try:
+            subprocess.run([
+                "sudo", "apt-get", "install", "-y", "npm"
+            ], check=True)
+            subprocess.run(
+                ["npm", "install", "-g", "snyk"],
+                check=True
+            )
+        except subprocess.CalledProcessError as e:
+            print(f"Error to setup Snyk CLI: {e}")
+            raise
         
     async def validate_Snyk_Cli(self):
         try:
             # Check if Snyk CLI is installed
             result = subprocess.run(
-                ["snyk", "--version"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=True,
+                ["snyk", "version"],
+                check=True
             )
-            version = result.stdout.decode("utf-8").strip()
-            print(f"Snyk CLI version: {version}")
+            print(f"Snyk CLI version: {result}")
             return True
         except Exception as e:
             print(f"Error to setup Snyk CLI: {e}")
@@ -45,19 +54,23 @@ class SnykSettings(BaseSettings):
     """
     Configuration settings for the application.
     """
-    SNYK_TOKEN: str
-    CLIENT_REPO_NAME: str
-    CLIENT_REPO_URL: str
-    CLIENT_REPO_PATH: str
+    SNYK_TOKEN: str | None = None
+    CLIENT_REPO_NAME: str | None = None
+    CLIENT_REPO_URL: str | None = None
+    CLIENT_REPO_PATH: str | None = None
 
 
 async def main():
     try:
         config = SnykSettings()
         snyk_client = SnykController(config.SNYK_TOKEN)
+        await snyk_client.setup_snyk_cli()
         response = await snyk_client.validate_Snyk_Cli()
-        scan_result = await snyk_client.run_snyk_scan()
-        
+        if response:
+            print("Snyk CLI is installed and validated.")
+            response = await snyk_client.run_snyk_scan()
+        else:
+            print("Snyk CLI validation failed.")
         if response:
             print("Snyk CLI setup successfully.")
         else:
@@ -68,4 +81,3 @@ async def main():
     
 if __name__ == "__main__":
     asyncio.run(main())
-    
