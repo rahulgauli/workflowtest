@@ -66,7 +66,7 @@ jobs:
           # pipenv install --dev
           echo "Dependency Install Successfully Completed"
           # pipenv run python3 -m scanner
-          snyk --version
+          # snyk --version
           pwd
           cd ..
           ls
