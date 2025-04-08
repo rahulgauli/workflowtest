@@ -67,6 +67,8 @@ jobs:
         run: |
           echo "Navigating to Client Repo"
           ls
+          cd client-repo
+          ls
           echo "Current Directory: $(pwd)"
           
 
