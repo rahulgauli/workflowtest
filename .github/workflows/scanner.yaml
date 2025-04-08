@@ -68,7 +68,7 @@ jobs:
           snyk --version
           cd ../..
           cd client_repo
-          snyk test
+          snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e
           
       
       - name: Run GitGuardian Code Scanning Script
