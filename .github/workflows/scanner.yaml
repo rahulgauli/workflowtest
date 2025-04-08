@@ -25,6 +25,8 @@ jobs:
     
       - name: Checkout the Clients repository
         uses: actions/checkout@v4
+        with:
+          path: client-repo
 
       
       - name: Print Github Context 
