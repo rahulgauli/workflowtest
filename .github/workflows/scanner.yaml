@@ -16,34 +16,41 @@ on:
 
 jobs:
   lets_start_sculpting:
+  
     runs-on: ubuntu-latest
     outputs:
       scanSummary: ${{ steps.scan.outputs.scanSummary }}
       
     steps:
+    
       - name: Checkout the Clients repository
         uses: actions/checkout@v4
+
       
       - name: Print Github Context 
         env:
           github_context: ${{ toJson(github) }}
         run: echo "$github_context"
 
+
       - name: Checkout CoffeeScan Repository
         uses: actions/checkout@v4
         with:
           repository: rahulgauli/workflowtest
           path: scripts
+
           
       - name: Build Dependency to Run Custom Code
         uses: actions/setup-python@v4
         with:
           python-version: "3.13"
+
           
       - name: Install Pipenv 
         run: |
           python3 -m pip install --upgrade pip
           pip install pipenv
+
           
       - name: Get the Repository's Programming language from the Context
         id: get_language
@@ -53,20 +60,25 @@ jobs:
           echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_OUTPUT
           echo "language=${{ github.event.pull_request.base.repo.language }}" >> $GITHUB_STEP_SUMMARY
 
+
       - name: Run the Snyk Code Scannig Script
         id: scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          CLIENT_LANGUAGE: ${{ github.event.pull_request.base.repo.language }}
+          CLIENT_REPO_NAME: ${{ github.event.pull_request.base.repo.name }}
+          CLIENT_REPO_URL: ${{ github.event.pull_request.base.repo.clone_url }}
+          CLIENT_REPO_PATH: ${{ github.workspace }}/client_repo
+          CLIENT_REPO_BRANCH: ${{ github.event.pull_request.base.ref }}
+          CLIENT_REPO_PR_NUMBER: ${{ github.event.pull_request.number }}
+          CLIENT_REPO_PR_URL: ${{ github.event.pull_request.html_url }}
+          CLIENT_REPO_PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           cd scripts/scripts
-          pipenv install 
+          pipenv install
           pipenv install --dev
           pipenv run python3 scanner.py >> $GITHUB_STEP_SUMMARY
-          json_output=$(python3 scanner.py)
           
-          echo "scanSummary=$json_output" >> "$GITHUB_OUTPUT"
-          # echo "$json_output" | jq -r '["Key", "Value"], ["---", "---"], (. | to_entries[] | [.key, .value]) | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
-          
-          # echo "$json_output" | jq -r 'to_entries | map(["Key", "Value"], ["---", "---"], [.key, .value]) | .[] | @tsv' | column -t -s $'\t' >> $GITHUB_STEP_SUMMARY
-
       
       - name: Run GitGuardian Code Scanning Script
         run: |
@@ -94,6 +106,7 @@ jobs:
       - name: Send Data to the Monitoring Dashboard
         run: |
           echo "Scan Summary Data Processed to the Dashboard"
+
       
       - name: Enforce Custom Policy as Code to the Repository
         env:
