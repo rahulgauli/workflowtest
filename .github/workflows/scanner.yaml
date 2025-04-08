@@ -81,6 +81,7 @@ jobs:
           pipenv run python3 -m scanner
           snyk --version
           cd $CLIENT_REPO_PATH
+          ls
           snyk test
           
       
