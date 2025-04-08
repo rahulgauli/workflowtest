@@ -62,6 +62,7 @@ jobs:
           CLIENT_REPO_PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           cd scripts/scripts
+          ls
           # pipenv install
           # pipenv install --dev
           echo "Dependency Install Successfully Completed"
@@ -70,6 +71,7 @@ jobs:
           pwd
           cd ..
           ls
+          cd client-repo
           pwd
           cd ..
           ls
