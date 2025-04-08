@@ -75,7 +75,7 @@ jobs:
           cd ..
           ls
           pwd
-          cd client-repo
+          cd client_repo
           ls
           pwd
           
