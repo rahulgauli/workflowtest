@@ -80,6 +80,8 @@ jobs:
           echo "Dependency Install Successfully Completed"
           pipenv run python3 -m scanner
           snyk --version
+          cd ..
+          cd ..
           snyk test
           
       
