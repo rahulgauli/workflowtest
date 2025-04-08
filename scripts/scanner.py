@@ -83,7 +83,7 @@ async def main():
         # Validate Snyk CLI
         if response:
             print("Snyk CLI is installed and validated.")
-            response = await snyk_client.run_snyk_scan()
+            # response = await snyk_client.run_snyk_scan()
         else:
             print("Snyk CLI validation failed.")
         if response:
