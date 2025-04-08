@@ -55,7 +55,9 @@ async def main():
     try:
         config = SnykSettings()
         snyk_client = SnykController(config.SNYK_TOKEN)
-        response = await snyk_client.setup_Snyk_Cli()
+        response = await snyk_client.validate_Snyk_Cli()
+        scan_result = await snyk_client.run_snyk_scan()
+        
         if response:
             print("Snyk CLI setup successfully.")
         else:
