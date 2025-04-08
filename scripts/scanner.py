@@ -40,7 +40,7 @@ class SnykController:
         try:
             # Check if Snyk CLI is installed
             result = subprocess.run(
-                ["snyk", "version"],
+                ["snyk", "--version"],
                 check=True
             )
             print(f"Snyk CLI version: {result}")
@@ -53,10 +53,7 @@ class SnykController:
         try:
             # Run Snyk scan command
             result = subprocess.run(
-                ["snyk", "test"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=True,
+                ["snyk", "test"]
             )
             output = result.stdout.decode("utf-8").strip()
             print(f"Snyk scan output: {output}")
