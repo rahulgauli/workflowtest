@@ -62,20 +62,19 @@ jobs:
           CLIENT_REPO_PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           cd scripts/scripts
+          pwd
           ls
           # pipenv install
           # pipenv install --dev
           echo "Dependency Install Successfully Completed"
           # pipenv run python3 -m scanner
           # snyk --version
-          pwd
           cd ..
-          ls
-          cd client-repo
           pwd
+          ls
           cd ..
-          ls
           pwd
+          ls
           # snyk test
           
       
