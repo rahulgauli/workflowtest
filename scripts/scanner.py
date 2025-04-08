@@ -165,6 +165,7 @@ class SnykController:
             subprocess.run("curl", "-sl", "https://snyk.io/install", "|", "bash", check=True)
             os.environ["PATH"] = f"{os.environ["HOME"]}/.snyk:{os.environ["PATH"]}"
             subprocess.run("snyk", "config", "set", f"api={self.snyk_api_key}", check=True)
+            subprocess.run(["snyk", "--version"], check=True)
             return True
         except Exception as e:
             print(f"Error to setup Snyk CLI: {e}")
