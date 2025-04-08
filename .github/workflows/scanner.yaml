@@ -38,7 +38,12 @@ jobs:
       - name: Build Dependency to Run Custom Code
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.13"
+          
+      - name: Install Pipenv 
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install pipenv
           
       - name: Get the Repository's Programming language from the Context
         id: get_language
@@ -52,7 +57,9 @@ jobs:
         id: scan
         run: |
           cd scripts/scripts
-          python3 scanner.py >> $GITHUB_STEP_SUMMARY
+          pipenv install 
+          pipenv install --dev
+          pipenv run python3 scanner.py >> $GITHUB_STEP_SUMMARY
           json_output=$(python3 scanner.py)
           
           echo "scanSummary=$json_output" >> "$GITHUB_OUTPUT"
