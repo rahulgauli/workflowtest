@@ -176,7 +176,6 @@ class SnykSettings(BaseSettings):
     Configuration settings for the application.
     """
     SNYK_TOKEN: str
-    CLIENT_REPO_LANGUAGE: str
     CLIENT_REPO_NAME: str
     CLIENT_REPO_URL: str
     CLIENT_REPO_PATH: str
