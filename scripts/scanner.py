@@ -152,7 +152,7 @@
 import os
 import asyncio
 import subprocess
-from pydantic_settings import BaseSettings, Field
+from pydantic_settings import BaseSettings
 
 
 class SnykController:
