@@ -79,6 +79,7 @@ jobs:
           pipenv install --dev
           echo "Dependency Install Successfully Completed"
           pipenv run python3 -m snyk-install 1.1296.1
+          pipenv run python3 -m scanner
           
       
       - name: Run GitGuardian Code Scanning Script
