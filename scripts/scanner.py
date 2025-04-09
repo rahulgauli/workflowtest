@@ -58,16 +58,24 @@ class SnykController:
     
     async def run_snyk_scan(self):
         try:
+            # cd ../..
+            # cd client_repo
+            #snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e
             # Run Snyk scan command
-            result = subprocess.run(
-                ["snyk", "test"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=True,
+            subprocess.run(
+                ["cd", "../.."],
+                check=True
             )
-            output = result.stdout.decode("utf-8").strip()
-            print(f"Snyk scan output: {output}")
-            return True
+            subprocess.run(
+                ["cd", "client_repo"],
+                check=True
+            )
+            result = subprocess.run(
+                ["snyk", "code", "test", "--org=d4770938-91e9-454f-b82f-1b4bb72dc30e", "--json"],
+                check=True
+            )
+            print(f"Snyk scan output: {result}")
+            return result
         except Exception as e:
             print(f"Error to run Snyk scan: {e}")
             raise
@@ -93,7 +101,8 @@ async def main():
         # Validate Snyk CLI
         if response:
             print("Snyk CLI is installed and validated.")
-            # response = await snyk_client.run_snyk_scan()
+            response = await snyk_client.run_snyk_scan()
+            return response
         else:
             print("Snyk CLI validation failed.")
         if response:
@@ -102,7 +111,8 @@ async def main():
             print("Failed to setup Snyk CLI.")
     except Exception as e:
         print(f"Error to interface with Snyk client: {e}")
-        return
+        return 
     
 if __name__ == "__main__":
-    asyncio.run(main())
+    scan_result = asyncio.run(main())
+    print(scan_result)
