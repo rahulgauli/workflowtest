@@ -69,7 +69,6 @@ jobs:
           cd client_repo
           scan_summary=$(snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e)
           echo "Scan Summary: $scan_summary" >> $GITHUB_STEP_SUMMARY
-          echo "scanSummary=$scan_summary" >> $GITHUB_ENV
           
       
       - name: Run GitGuardian Code Scanning Script
@@ -91,7 +90,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '${{ steps.scan.outputs.scanSummary }}'
+              body: 'Please Check the Action Summary here'
             })
 
             
