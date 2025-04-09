@@ -67,7 +67,9 @@ jobs:
           pipenv run python3 -m setup_scanner setup
           cd ../..
           cd client_repo
-          snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e >> $GITHUB_STEP_SUMMARY
+          scan_summary=$(snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e --json)
+          echo "$scan_summary" > scan_summary.json
+          echo "::set-output name=scanSummary::$scan_summary"
           
       
       - name: Run GitGuardian Code Scanning Script
