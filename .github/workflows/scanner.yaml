@@ -68,8 +68,8 @@ jobs:
           cd ../..
           cd client_repo
           scan_summary=$(snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e)
-          echo "$scan_summary" > scan_summary.json
-          echo "::set-output name=scanSummary::$scan_summary"
+          echo "Scan Summary: $scan_summary" >> $GITHUB_STEP_SUMMARY
+          echo "scanSummary=$scan_summary" >> $GITHUB_OUTPUT
           
       
       - name: Run GitGuardian Code Scanning Script
