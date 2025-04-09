@@ -62,14 +62,14 @@ class SnykController:
             # cd client_repo
             #snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e
             # Run Snyk scan command
-            subprocess.run(
-                ["cd", "../.."],
-                check=True
-            )
-            subprocess.run(
-                ["cd", "client_repo"],
-                check=True
-            )
+            # subprocess.run(
+            #     ["cd", "../.."],
+            #     check=True
+            # )
+            # subprocess.run(
+            #     ["cd", "client_repo"],
+            #     check=True
+            # )
             result = subprocess.run(
                 ["snyk", "code", "test", "--org=d4770938-91e9-454f-b82f-1b4bb72dc30e", "--json"],
                 check=True
