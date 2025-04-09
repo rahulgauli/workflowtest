@@ -65,10 +65,10 @@ jobs:
           pipenv install
           pipenv install --dev
           pipenv run python3 -m scanner
-          snyk --version
-          cd ../..
-          cd client_repo
-          snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e
+          # snyk --version
+          # cd ../..
+          # cd client_repo
+          # snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e
           
       
       - name: Run GitGuardian Code Scanning Script
