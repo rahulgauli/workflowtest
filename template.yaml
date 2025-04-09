@@ -1,86 +1,81 @@
-# Notice the v1beta3 version
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
-# some metadata about the template itself
 metadata:
-  name: v1beta3-demo
-  title: Test Action template
-  description: scaffolder v1beta3 template demo
+  # name of template, convention is to use the repo name of the template
+  name: Barnacle Integration 
+  # title for prettier display on the template catalog
+  title: (Beta) Cybersecurity Defense Engineering Barnacle
+  # description for prettier display on the template catalog
+  description: This is a beta version of CDE manifest integration for GitHub
+  # list of string tags used on the Template catalog for search-ability
+  tags:
+    - Security
+    - Cyber Defense 
+    - SAST&SCA
+
 spec:
-  owner: backstage/techdocs-core
-  type: service
+  owner: Cyber Defense Engineer
+  type: Security
 
-  # these are the steps which are rendered in the frontend with the form input
   parameters:
-    - title: Fill in some steps
+    - title: Barnacle Information
+      description: |
+                      ## &#10071; Important &#10071;
+                      An email notification will be sent to the requester once you submit the request. For documentation, please refer to ...
       required:
-        - name
+        - ProductID
+        - GithubRepositoryName
       properties:
-        name:
-          title: Name
-          type: string
-          description: Unique name of the component
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        owner:
-          title: Owner
-          type: string
-          description: Owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            catalogFilter:
-              kind: Group
-    - title: Choose a location
-      required:
-        - repoUrl
-      properties:
-        repoUrl:
-          title: Repository Location
-          type: string
-          ui:field: RepoUrlPicker
-          ui:options:
-            allowedHosts:
-              - github.com
+        GithubRepositoryName:
+          title: GitHub Repo Name
+          description: Name of the github repository
+          ui:field: ##
+      
+        ProductId:
+          title: Company Product ID
+          description: Product ID
+          ui:field: 
 
-  # here's the steps that are executed in series in the scaffolder backend
+    - title: Application Details
+      properties:
+        appBuild:
+          title: Application Build Type
+          description: Build type includes - add here
+          type: string
+          enum:
+            - Python-3.10
+            - Node
+            - Maven-3-jdk11
+            - MAven-3-jdk22
+            - Gradle
+            - Ruby
+          enumNames:
+            - 'Python 3.10'
+            - 'Node'
+            - Maven-3-JDK11
+            - Maven-3-JDK22
+            - Gradle
+            - Ruby
+            
+        comments:
+          title: Any Comments and/or questions
+          description: Brief and specific information you think will be helpful
+          type: string
+          ui:widget: textarea
+          ui:options:
+            rows: 4
+      required:
+        - GithubRepositoryName
+        - appBuild
+
   steps:
-    - id: fetch-base
-      name: Fetch Base
+    - id: Fetch Values
+      name: Reading data submitted
       action: fetch:template
       input:
-        url: ./template
+        url: ./skeleton
         values:
-          name: ${{ parameters.name }}
-          owner: ${{ parameters.owner }}
-
-    - id: fetch-docs
-      name: Fetch Docs
-      action: fetch:plain
-      input:
-        targetPath: ./community
-        url: https://github.com/backstage/community/tree/main/backstage-community-sessions
-
-    - id: publish
-      name: Publish
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.repoUrl }}
-
-    - id: register
-      name: Register
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
-
-  # some outputs which are saved along with the job for use in the frontend
-  output:
-    links:
-      - title: Repository
-        url: ${{ steps['publish'].output.remoteUrl }}
-      - title: Open in catalog
-        icon: catalog
-        entityRef: ${{ steps['register'].output.entityRef }}
+          employeeId:
+          GithubRepositoryName: ${{ parameters.GithubRepositoryName.reponame? }}
+          appBuild: ${{ parameters.appBuild }}
+          comments: ${{ parameters.comments }}
