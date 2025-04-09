@@ -32,6 +32,7 @@ class SnykController:
             subprocess.run(["curl", "-sSL", "https://static.snyk.io/cli/latest/snyk-linux", "-o", "snyk"], check=True)
             subprocess.run(["chmod", "+x", "./snyk"], check=True)
             subprocess.run(["sudo", "mv", "./snyk", "/usr/local/bin/"], check=True)
+            return True
         except subprocess.CalledProcessError as e:
             print(f"Error to setup Snyk CLI: {e}")
             raise
@@ -39,11 +40,9 @@ class SnykController:
 
     async def setup_snyk_api_key(self):
         try:
-            subprocess.run(
-                ["snyk", "config", "set", f"api={self.snyk_api_key}"],
-                check=True
-            )
+            subprocess.run(["snyk", "config", "set", f"api={self.snyk_api_key}"], check=True)
             print("Snyk API key set successfully.")
+            return True
         except subprocess.CalledProcessError as e:
             print(f"Error to setup Snyk API key: {e}")
             raise
@@ -51,16 +50,9 @@ class SnykController:
         
     async def validate_Snyk_Cli(self):
         try:
-            result = subprocess.run(
-                ["snyk", "--version"],
-                check=True
-            )
-            output = result.stdout.decode("utf-8").strip()
-            if not output:
-                print("Snyk CLI is not installed.")
-                return False
-            version = output.split()[1]
-            return version
+            subprocess.run(["snyk", "--version"],check=True)
+            print("Snyk Version Echo Around Action")
+            return True
         except subprocess.CalledProcessError as e:
             print(f"Snyk CLI is not installed: {e}")
             raise
@@ -71,12 +63,8 @@ class SnykController:
     
 async def run_snyk_scan():
     try:
-        result = subprocess.run(
-            ["snyk", "code", "test", "--org=d4770938-91e9-454f-b82f-1b4bb72dc30e", "--json"],
-            check=True
-        )
-        print(f"Snyk scan output: {result}")
-        return result
+        subprocess.run(["snyk", "code", "test", "--org=d4770938-91e9-454f-b82f-1b4bb72dc30e", "--json"], check=True)
+        return True
     except Exception as e:
         print(f"Error to run Snyk scan: {e}")
         raise
