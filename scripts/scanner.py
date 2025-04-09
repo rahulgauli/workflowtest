@@ -8,16 +8,23 @@ class SnykController:
     def __init__(self, snyk_api_key: str):
         self.snyk_api_key = snyk_api_key 
 
+#curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+#chmod +x ./snyk
+#mv ./snyk /usr/local/bin/ 
+
 
     async def setup_snyk_cli(self):
         try:
-            subprocess.run([
-                "sudo", "apt-get", "install", "-y", "npm"
-            ], check=True)
-            subprocess.run(
-                ["npm", "install", "-g", "snyk"],
-                check=True
-            )
+            subprocess.run(["curl", "-sSL", "https://static.snyk.io/cli/latest/snyk-linux", "-o", "snyk"], check=True)
+            subprocess.run(["chmod", "+x", "./snyk"], check=True)
+            subprocess.run(["sudo", "mv", "./snyk", "/usr/local/bin/"], check=True)
+            # subprocess.run([
+            #     "sudo", "apt-get", "install", "-y", "npm"
+            # ], check=True)
+            # subprocess.run(
+            #     ["npm", "install", "-g", "snyk"],
+            #     check=True
+            # )
         except subprocess.CalledProcessError as e:
             print(f"Error to setup Snyk CLI: {e}")
             raise
@@ -53,7 +60,10 @@ class SnykController:
         try:
             # Run Snyk scan command
             result = subprocess.run(
-                ["snyk", "test"]
+                ["snyk", "test"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=True,
             )
             output = result.stdout.decode("utf-8").strip()
             print(f"Snyk scan output: {output}")
@@ -83,7 +93,7 @@ async def main():
         # Validate Snyk CLI
         if response:
             print("Snyk CLI is installed and validated.")
-            # response = await snyk_client.run_snyk_scan()
+            response = await snyk_client.run_snyk_scan()
         else:
             print("Snyk CLI validation failed.")
         if response:
