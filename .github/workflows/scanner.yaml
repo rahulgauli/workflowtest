@@ -64,7 +64,7 @@ jobs:
           cd scripts/scripts
           pipenv install
           pipenv install --dev
-          pipenv run python3 -m setup_scanner setup
+          pipenv run python3 -m setup_scanner _setup
           cd ../..
           cd client_repo
           scan_summary=$(snyk code test --org=d4770938-91e9-454f-b82f-1b4bb72dc30e)
