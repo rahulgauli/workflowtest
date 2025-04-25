@@ -1,24 +1,24 @@
+name: Create release
+
 on:
   push:
-    branches:    
-      - main
-    paths:
-      - '**/RELEASE'
-  pull_request:
-    types: [opened, synchronize]
     branches:
       - main
-    paths:
-      - '**/RELEASE'
+
+permissions:
+  contents: write
 
 jobs:
-  gh-release:
-    runs-on: ubuntu-latest
+  release:
+    name: Release pushed tag
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: pipe-cd/actions-gh-release@v2.3.4
-        with:
-          release_file: '**/RELEASE'
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release create "$tag" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+              --generate-notes
