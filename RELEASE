@@ -1,4 +1,4 @@
-tag: v0.1.0                        # The tag number will be created. Required.
+tag: v1.0.0                        # The tag number will be created. Required.
 
 # # Optional fields:
 #
@@ -27,11 +27,11 @@ tag: v0.1.0                        # The tag number will be created. Required.
 #
 # # List of categories and how to decide which category a commit should belong to.
 #
-# commitCategories:
-#   - title: string                # Category title.
-#     parentOfMergeCommit: bool    # True is whether the commit is the parent commit of the matching merge commit. Default is false.
-#     contains: []string           # Matches if commit's subject is prefixed by one of the given values. Default is emtpy.
-#     prefixes: []string           # Matches if commit's body is containing one of the given values. Default is emtpy.
+ commitCategories:
+   - title: string                # Category title.
+     parentOfMergeCommit: bool    # True is whether the commit is the parent commit of the matching merge commit. Default is false.
+     contains: []string           # Matches if commit's subject is prefixed by one of the given values. Default is emtpy.
+     prefixes: []string           # Matches if commit's body is containing one of the given values. Default is emtpy.
 #
 #
 # # Config used while generating release note.
