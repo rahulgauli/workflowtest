@@ -11,6 +11,8 @@ permissions:
 jobs:
   version-check:
     runs-on: ubuntu-latest
+    outputs:
+      type: ${{ steps.release_type.outputs.type }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
