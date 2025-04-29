@@ -43,7 +43,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get latest release tag (using API)
+      - name: Get latest release tag
         id: get_latest_release
         run: |
           latest_tag=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
@@ -55,7 +55,7 @@ jobs:
         run: |
           VERSION=${{ steps.get_latest_release.outputs.tag }}
           TYPE="${{ needs.version-check.outputs.type }}"
-          
+          VERSION="${VERSION#v}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
           if [[ "$TYPE" == "fix" ]]; then
