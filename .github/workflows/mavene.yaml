@@ -1,0 +1,21 @@
+name: Test maven setup
+on:
+  workflow_dispatch:
+
+jobs:
+  setupmaven:
+    runs-on: linux
+    permissions: write-all
+    
+    steps:
+      - name: Install Maven manually (user-space)
+        run: |
+          MAVEN_VERSION=3.9.6
+          MAVEN_DIR="$HOME/maven"
+          mkdir -p "$MAVEN_DIR"
+          curl -fsSL https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz -o maven.tar.gz
+          tar -xzf maven.tar.gz -C "$MAVEN_DIR" --strip-components=1
+          export PATH="$MAVEN_DIR/bin:$PATH"
+          echo "MAVEN_HOME=$MAVEN_DIR" >> $GITHUB_ENV
+          echo "$MAVEN_DIR/bin" >> $GITHUB_PATH
+          mvn -version
