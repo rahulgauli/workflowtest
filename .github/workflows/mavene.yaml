@@ -13,7 +13,7 @@ jobs:
           MAVEN_VERSION=3.9.6
           MAVEN_DIR="$HOME/maven"
           mkdir -p "$MAVEN_DIR"
-          curl -fsSL https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -o maven.tar.gz
-          tar -xzf maven.tar.gz -C "$MAVEN_DIR" --strip-components=1
+          curl -O https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+          tar xzvf apache-maven-3.8.5-bin.tar.gz
           echo "$MAVEN_DIR/bin" >> $GITHUB_PATH
           mvn -version
